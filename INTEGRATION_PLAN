@@ -1,0 +1,46 @@
+# System Integration Plan
+
+**Integration Lead:** Jacob Stirnemann
+
+## 1. Architecture & Data Flow
+This section outlines the lifecycle of a single user within the AI Avatar. Data flows sequentially through our local stack and returns to the visual front-end.
+
+1. **Input (Unity):** User submits text input via the Unity UI.
+2. **Transmission (Unity -> n8n):** Unity fires an HTTP POST request containing the user's message to the n8n webhook endpoint.
+3. **Routing (n8n -> SillyTavern):** n8n processes the payload and forwards the data to SillyTavern via API.
+4. **Prompting (SillyTavern -> vLLM):** SillyTavern applies the AI Avatar persona prompt to the user input and sends the formatted request to the local vLLM server.
+5. **Generation (vLLM -> n8n):** vLLM generates the response, passes it back through SillyTavern, and n8n captures the final text output.
+6. **Execution (n8n -> Unity):** n8n sends the final JSON payload back to Unity, triggering the VRoid avatar's lip-sync and response display.
+
+---
+
+## 2. API Contracts & Payloads
+To ensure successful communication between modules, n8n (Tanner) and Unity (Megan) will use the following standard JSON structures for phase 1 testing.
+
+**Standard Outbound Payload (Unity to n8n):**
+json
+{
+  "session_id": "aot_test_001",
+  "user_message": "Hello A.O.T, what is the status of the system?",
+  "timestamp": "2026-03-10T12:00:00Z"
+}
+
+**Standard Inbound Payload (n8n to Unity):
+json
+{
+  "status": "success",
+  "ai_response": "All systems are currently functioning at optimal capacity.",
+  "emotion_state": "Neutral"
+}
+
+---
+
+## 3. Local Environment & Port Assignments
+To prevent local hosting conflicts when combining software on a single machine, each team member must configure their tools to use the following designated ports:
+
+* **vLLM Server (Jalen):** http://localhost:8000
+* **SillyTavern (Acho):** http://localhost:8001
+* **n8n Middleware (Tanner):** http://localhost:5678
+* **Unity Webhook Target (Megan):** http://localhost:5678/webhook/aot-chat
+
+---
