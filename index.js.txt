@@ -1,0 +1,35 @@
+import { getContext } from "../../../extensions.js";
+
+// Detect JSON in assistant response
+function extractJSON(text) {
+    const match = text.match(/\{[\s\S]*\}/);
+    if (!match) return null;
+
+    try {
+        return JSON.parse(match[0]);
+    } catch {
+        return null;
+    }
+}
+
+// Hook into responses (pseudo example)
+SillyTavern.getContext().eventSource.on("message", async (event) => {
+    const message = event.message;
+    const data = extractJSON(message);
+
+    if (!data) return;
+
+    console.log("Sending to n8n:", data);
+
+    const res = await fetch("http://localhost:5678/webhook/assistant-task", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    console.log("n8n response:", result);
+});
