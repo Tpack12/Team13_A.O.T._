@@ -1,0 +1,2529 @@
+{
+  "name": "A.O.T. Assistant Router",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "assistant-router",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -304,
+        608
+      ],
+      "id": "1a27940a-3ce3-4f16-9836-44e40e7fdc5f",
+      "name": "Webhook",
+      "webhookId": "c3d7d24b-2565-439f-83b8-813d65065466"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{$json.body.intent}}",
+                    "rightValue": "calendar",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "9e4b121f-9266-480f-b23f-003a124ff730"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "57af9cfc-38c6-4168-a5a4-4132b96b5d78",
+                    "leftValue": "={{$json.body.intent}}",
+                    "rightValue": "email",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "520797c4-88ef-4d73-a8a2-ec607647d455",
+                    "leftValue": "={{$json.body.intent}}",
+                    "rightValue": "search",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -80,
+        592
+      ],
+      "id": "f38bd1dd-f1c4-4547-a24b-d72a247e155d",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "tannerpa4@gmail.com",
+          "mode": "list",
+          "cachedResultName": "tannerpa4@gmail.com"
+        },
+        "start": "={{$json.start}}",
+        "end": "={{$json.end}}",
+        "additionalFields": {
+          "location": "={{$json.location}}",
+          "summary": "={{$json.title}}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        592,
+        -256
+      ],
+      "id": "88cd52aa-9114-461d-b07b-730b75b9e09b",
+      "name": "Create an event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "woSu0TUJT6XR9c1Z",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "create",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "632cf62c-7b5d-42c4-967c-d92871409463"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "bd77b1b2-9f8c-4581-be15-a17a806617de",
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "delete",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "67c4d1ca-54be-45d6-90c8-6d1e486972dc",
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "get",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "95290edd-4ba2-40bc-a309-7838315cc2dd",
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "update",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        144,
+        96
+      ],
+      "id": "a48aa2a3-193f-496f-9a00-80878d83b4a7",
+      "name": "Calendar Action Switch"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "calendar": {
+          "__rl": true,
+          "value": "tannerpa4@gmail.com",
+          "mode": "list",
+          "cachedResultName": "tannerpa4@gmail.com"
+        },
+        "eventId": "={{ $json.eventId }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        592,
+        -64
+      ],
+      "id": "75772abf-691f-4304-b19d-fc4e3e7f084d",
+      "name": "Delete an event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "woSu0TUJT6XR9c1Z",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6a5285f0-c714-40dd-add0-768b5740158f",
+              "name": "success",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "06e9f4be-78a2-4459-bf37-ae424108f4d8",
+              "name": "intent",
+              "value": "calendar",
+              "type": "string"
+            },
+            {
+              "id": "bd8b766b-cab0-4870-a001-02607c8d430b",
+              "name": "action",
+              "value": "delete",
+              "type": "string"
+            },
+            {
+              "id": "7b02f8f7-f555-4735-939f-bda2ff2e8d05",
+              "name": "eventId",
+              "value": "={{$node[\"Delete Normalize (calendar)\"].json[\"eventId\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "3b1e63ef-68f6-42f9-9a0d-94fe29403280",
+              "name": "status",
+              "value": "deleted",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        816,
+        -64
+      ],
+      "id": "a119861d-2ef4-4d01-ac75-ce8e96e5775b",
+      "name": "Edit Fields (Delete)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9e6574ff-0ff7-4305-9e2f-8bb92dd9fc6a",
+              "name": "success",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "4d92c639-c497-4153-b872-481cfaee0cc2",
+              "name": "intent",
+              "value": "calendar",
+              "type": "string"
+            },
+            {
+              "id": "f94402c9-9426-4c10-8a59-ae721ca851df",
+              "name": "title",
+              "value": "={{ $json.summary }}",
+              "type": "string"
+            },
+            {
+              "id": "5f583333-4bda-43ab-a2d4-fe7c280f801c",
+              "name": "location",
+              "value": "={{ $json.location || \"No location provided\" }}",
+              "type": "string"
+            },
+            {
+              "id": "d9fb46ac-c89d-4cd2-ac84-50ede808fd79",
+              "name": "start",
+              "value": "={{ $json.start.dateTime }}",
+              "type": "string"
+            },
+            {
+              "id": "a90ff828-4ab6-4724-aba1-dc9b63fe2f39",
+              "name": "end",
+              "value": "={{ $json.end.dateTime }}",
+              "type": "string"
+            },
+            {
+              "id": "6aea33fc-2cb3-4ab0-bad3-d2918abb83e7",
+              "name": "status",
+              "value": "={{ $json.status }}",
+              "type": "string"
+            },
+            {
+              "id": "270615f9-63a2-44a7-bb8d-820188f3e623",
+              "name": "eventLink",
+              "value": "={{ $json.htmlLink }}",
+              "type": "string"
+            },
+            {
+              "id": "75ca836e-eb43-4f93-a919-0ac62490fc4b",
+              "name": "eventId",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        816,
+        -256
+      ],
+      "id": "083ea36f-48fe-4852-960e-ded78379f1c2",
+      "name": "Edit Fields (Create)"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1040,
+        -256
+      ],
+      "id": "73f7e9df-fa35-498a-a9ed-8e8c4cb6b589",
+      "name": "Respond to Webhook (Calendar Create)"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1040,
+        -64
+      ],
+      "id": "6a48f3fb-2532-4773-a107-baefc0a3605a",
+      "name": "Respond to Webhook (Calendar Delete)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ce08ab22-ec75-4734-a65d-2d1cd0a69409",
+              "name": "title",
+              "value": "={{ $json.body.title || \"New Event\" }}",
+              "type": "string"
+            },
+            {
+              "id": "9b3416a8-c6f7-4c27-ba27-a72334d808e1",
+              "name": "start",
+              "value": "={{ $json.body.start || $now.toISO()}}",
+              "type": "string"
+            },
+            {
+              "id": "f104aeab-79d9-4574-80d0-b9829bb1f3c4",
+              "name": "end",
+              "value": "={{ $json.body.end || $now.plus({ hours: 1 }).toISO()}}",
+              "type": "string"
+            },
+            {
+              "id": "64b1b561-1300-4817-8ab1-4df8a3c6ad6c",
+              "name": "location",
+              "value": "={{ $json.body.location || \"No location provided\" }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        -256
+      ],
+      "id": "7d14a044-8188-4a5f-a140-0eae052fd201",
+      "name": "Create Normalize"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bbd657ad-4cb5-4e31-a9c3-f5bc4bedf2e2",
+              "name": "date",
+              "value": "={{ $json.body.date }}",
+              "type": "string"
+            },
+            {
+              "id": "ae6e4f7b-96c8-4873-a362-2e8e3c3cb81f",
+              "name": "startTime",
+              "value": "={{ $json.body.date + \"T00:00:00-05:00\" }}",
+              "type": "string"
+            },
+            {
+              "id": "64a58887-5b7f-4099-af18-6c4eb0c721f7",
+              "name": "endTime",
+              "value": "={{ $json.body.date + \"T23:59:59-05:00\" }}",
+              "type": "string"
+            },
+            {
+              "id": "3c0048ed-6b59-47e2-88f7-19d63d32a703",
+              "name": "title",
+              "value": "={{ $json.body.title || \"\" }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        224
+      ],
+      "id": "79bc0c2b-d773-493e-a19d-32dabe2fa406",
+      "name": "Get Events Normalize"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "tannerpa4@gmail.com",
+          "mode": "list",
+          "cachedResultName": "tannerpa4@gmail.com"
+        },
+        "returnAll": true,
+        "timeMin": "={{ $json.startTime }}",
+        "timeMax": "={{ $json.endTime }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        592,
+        224
+      ],
+      "id": "01882798-470a-4ffa-a250-bec911abbd73",
+      "name": "Get many events",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "woSu0TUJT6XR9c1Z",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1264,
+        128
+      ],
+      "id": "800f85b6-5c46-415d-aa7a-1aa087f7175b",
+      "name": "Respond to Webhook (Calendar Get)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5753d380-3228-4f76-bddc-d0fb2d1c7432",
+              "name": "eventId",
+              "value": "={{ $json.body.eventId }}",
+              "type": "string"
+            },
+            {
+              "id": "03d77f6e-fdc0-4735-8923-a8f0e06a66d9",
+              "name": "title",
+              "value": "={{ $json.body.title || \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "8ac1cbf7-18c2-473b-88d0-b42c124b2c32",
+              "name": "start",
+              "value": "={{ $json.body.start || \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "441c3768-1f67-468f-b70d-8833ece8c2e8",
+              "name": "end",
+              "value": "={{ $json.body.end || \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "228613e0-8908-437d-9b65-c73a02e2de50",
+              "name": "location",
+              "value": "={{ $json.body.location || \"\" }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        512
+      ],
+      "id": "dbdef5d3-29e1-41a3-880f-2d0da441b230",
+      "name": "Update Normalize"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "calendar": {
+          "__rl": true,
+          "value": "tannerpa4@gmail.com",
+          "mode": "list",
+          "cachedResultName": "tannerpa4@gmail.com"
+        },
+        "eventId": "={{ $json.eventId }}",
+        "updateFields": {
+          "end": "={{ $json.end }}",
+          "id": "={{ $json.eventId }}",
+          "location": "={{ $json.location }}",
+          "start": "={{ $json.start }}",
+          "summary": "={{ $json.title }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        1040,
+        512
+      ],
+      "id": "30832a70-5b91-43b9-bc69-e360cce2ea44",
+      "name": "Update an event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "woSu0TUJT6XR9c1Z",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a2e3e22d-9e83-4fa2-905f-a22a8fc01968",
+              "name": "success",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "9b3054c4-ce81-44e0-b464-5b9a4fe48101",
+              "name": "intent",
+              "value": "calendar",
+              "type": "string"
+            },
+            {
+              "id": "2e95aaa5-404c-4aef-a555-20a91c52bf87",
+              "name": "action",
+              "value": "update",
+              "type": "string"
+            },
+            {
+              "id": "f07290b1-1f32-4b7b-97f9-da56d6c4c978",
+              "name": "eventId",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "02c8fbcd-42b9-4b7f-9f1d-1a3ed6af1306",
+              "name": "title",
+              "value": "={{ $json.summary }}",
+              "type": "string"
+            },
+            {
+              "id": "ff06db5a-b7e9-4086-906a-57ffef141f57",
+              "name": "location",
+              "value": "={{ $json.location || \"\"}}",
+              "type": "string"
+            },
+            {
+              "id": "6d05be5a-7851-4258-bb40-ad9c4a7c8730",
+              "name": "start",
+              "value": "={{ $json.start.dateTime || $json.start.date }}",
+              "type": "string"
+            },
+            {
+              "id": "572584ea-e413-4aa7-b9bf-bec7f33eaab0",
+              "name": "end",
+              "value": "={{ $json.end.dateTime || $json.end.date }}",
+              "type": "string"
+            },
+            {
+              "id": "9eb001c2-abd6-40f1-8a9a-c9ce8d56f51a",
+              "name": "status",
+              "value": "={{ $json.status }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1264,
+        512
+      ],
+      "id": "69e65619-a8b4-4297-808a-6ec251010669",
+      "name": "Edit Fields (Update)"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1488,
+        512
+      ],
+      "id": "02104966-9895-466c-9d1d-0d0e66afeb7b",
+      "name": "Respond to Webhook (Calendar Update)"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "calendar": {
+          "__rl": true,
+          "value": "tannerpa4@gmail.com",
+          "mode": "list",
+          "cachedResultName": "tannerpa4@gmail.com"
+        },
+        "eventId": "={{ $json.eventId }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        592,
+        512
+      ],
+      "id": "10e697b8-0c4e-4472-961d-67f479073082",
+      "name": "Get an event (Update Base)",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "woSu0TUJT6XR9c1Z",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "86652b6c-3583-4f6d-98bb-a08cc9c6f2cd",
+              "name": "eventId",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "83b8176a-97ce-46f2-94e6-1dc8b1b3a166",
+              "name": "title",
+              "value": "={{ $('Update Normalize').item.json.title || $json.summary }}",
+              "type": "string"
+            },
+            {
+              "id": "3a0cde41-2450-44a5-b116-988f624df43e",
+              "name": "location",
+              "value": "={{ $('Update Normalize').item.json.location || $json.location || \"\"}}",
+              "type": "string"
+            },
+            {
+              "id": "1b66162c-dcad-40ad-a137-abea6f31837f",
+              "name": "start",
+              "value": "={{ $('Update Normalize').item.json.start || $json.start.dateTime || $json.start.date }}",
+              "type": "string"
+            },
+            {
+              "id": "bf040b15-2db7-4602-bf59-10e777c386c2",
+              "name": "end",
+              "value": "={{ $('Update Normalize').item.json.end || $json.end.dateTime || $json.end.date }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        816,
+        512
+      ],
+      "id": "27518cac-930a-4095-91a7-65c382f232a0",
+      "name": "Edit Fields (Update Merge)"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3473fe5c-bb4c-498e-8e2e-97ea8af614b9",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        816,
+        224
+      ],
+      "id": "cb0d2930-a70d-4f7d-b860-106dab7b0fb1",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cead0920-896d-4cd1-94b5-76ab5711da1b",
+              "name": "success",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "a95bcde1-7799-412a-a54b-aee43a4b96b2",
+              "name": "intent",
+              "value": "calendar",
+              "type": "string"
+            },
+            {
+              "id": "d1ecc509-43da-4283-81be-f8d18c0d5902",
+              "name": "action",
+              "value": "get",
+              "type": "string"
+            },
+            {
+              "id": "a96479aa-1319-4909-8c33-f3bba083186f",
+              "name": "message",
+              "value": "No events found on your calendar for that time period.",
+              "type": "string"
+            },
+            {
+              "id": "42ae8761-7862-4c86-9284-667af653be7f",
+              "name": "eventsFound",
+              "value": 0,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1040,
+        320
+      ],
+      "id": "94f3161b-46aa-4b48-b180-b751f4d3399c",
+      "name": "Edit Fields (No Events Found)"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1264,
+        320
+      ],
+      "id": "4c7be57d-8a0f-44e0-8c8d-412586e20d07",
+      "name": "Respond to Webhook (No Calendar Events Found)"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst events = items.map(item => {\n  const e = item.json;\n\n  return {\n    eventId: e.id || \"\",\n    title: e.summary || \"Untitled Event\",\n    location: e.location || \"No location\",\n    start: e.start?.dateTime || e.start?.date || \"\",\n    end: e.end?.dateTime || e.end?.date || \"\",\n  };\n});\n\nconst formatDate = (dateStr) => {\n  if (!dateStr) return \"\";\n  const [year, month, day] = dateStr.split(\"T\")[0].split(\"-\");\n  const d = new Date(Number(year), Number(month) - 1, Number(day));\n  return d.toLocaleDateString([], { month: \"long\", day: \"numeric\" });\n};\n\nconst formatTime = (dateStr) => {\n  if (!dateStr || !dateStr.includes(\"T\")) return \"\";\n\n  const timePart = dateStr.split(\"T\")[1].slice(0, 5); // HH:MM\n  let [hour, minute] = timePart.split(\":\").map(Number);\n\n  const suffix = hour >= 12 ? \"PM\" : \"AM\";\n  hour = hour % 12;\n  if (hour === 0) hour = 12;\n\n  return minute === 0\n    ? `${hour}:00 ${suffix}`\n    : `${hour}:${String(minute).padStart(2, \"0\")} ${suffix}`;\n};\n\nlet message = \"\";\n\nif (events.length === 0) {\n  message = \"No events found for that time period.\";\n} else if (events.length === 1) {\n  const e = events[0];\n  message = `You have 1 event on ${formatDate(e.start)}: ${e.title} at ${formatTime(e.start)} in ${e.location}.`;\n} else {\n  const date = formatDate(events[0].start);\n\n  const eventList = events\n    .map(e => `• ${e.title} at ${formatTime(e.start)} (${e.location})`)\n    .join(\"\\n\");\n\n  message = `You have ${events.length} events on ${date}:\\n${eventList}`;\n}\n\nreturn [\n  {\n    json: {\n      success: true,\n      intent: \"calendar\",\n      action: \"get\",\n      eventsFound: events.length,\n      events,\n      message,\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        128
+      ],
+      "id": "8ad86bc9-c102-44ec-a4a8-4c53ff716cbb",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7695e45b-16e3-4e0a-9d31-13d83e477d16",
+              "name": "success",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "c94cf52a-b2cc-4bc4-8f32-17925e43bc76",
+              "name": "intent",
+              "value": "email",
+              "type": "string"
+            },
+            {
+              "id": "897b9365-6f0e-48b3-a758-3bbf1472b7f8",
+              "name": "action",
+              "value": "={{ $('Send Normalize').item.json.action }}",
+              "type": "string"
+            },
+            {
+              "id": "3a2a083f-2fd3-4407-bac0-2d35e7c34bfb",
+              "name": "to",
+              "value": "={{ $('Send Normalize').item.json.to }}",
+              "type": "string"
+            },
+            {
+              "id": "09bf8302-587f-4c18-953a-d59887389501",
+              "name": "subject",
+              "value": "={{ $('Send Normalize').item.json.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "033cd158-eb82-4acf-9924-7f838530a3ec",
+              "name": "message",
+              "value": "Email sent successfully",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        816,
+        704
+      ],
+      "id": "3b1ddeb2-939e-4f35-9306-dc1b7bf77e53",
+      "name": "Edit Fields (Email)"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{$json.body.action}}",
+                    "rightValue": "send",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "a492b731-4bae-4239-9d36-f9dd2756cfe7"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "84299f3d-43a4-4c9d-b1f0-caa08527d732",
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "get_many_messages",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "d701fdc4-d508-4e09-8178-bab61c32953f",
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "get_message",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "4be57d85-60e7-48f9-b90d-f4d52712c2b1",
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "reply",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "f974934d-7b61-4cfd-9d95-43956cd4df74",
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "mark_as_read",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a93a94bb-97c8-4cbe-b4d9-ef6544a57186",
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "mark_as_unread",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c71e2685-8bea-46c4-adbf-81117a8f7d1d",
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "delete_message",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "8d2b099c-ee1d-450e-938a-21de10a70a1d",
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "add_label",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "4a900507-740b-4824-9cb0-217dc51fda34",
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "get_many_labels",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        144,
+        1200
+      ],
+      "id": "9cccc4e3-eabb-4dea-afa6-b1b3933b8001",
+      "name": "Email Action Switch"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1ee2c89e-c992-468a-9526-59ea2816e46e",
+              "name": "to",
+              "value": "={{ $json.body.to }}",
+              "type": "string"
+            },
+            {
+              "id": "4d2e0e89-a7e4-43fb-84ad-434cb64906be",
+              "name": "subject",
+              "value": "={{ $json.body.subject || \"No Subject\" }}",
+              "type": "string"
+            },
+            {
+              "id": "05d8e128-01f5-433e-ad2d-6effaa616027",
+              "name": "message",
+              "value": "={{ $json.body.message || \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "6794961d-a6ba-4fb8-9eac-f1dab296de30",
+              "name": "action",
+              "value": "={{ $json.body.action || \"send\" }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        704
+      ],
+      "id": "a104618b-8313-47f5-85f6-685381a5f662",
+      "name": "Send Normalize"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8c31f402-f9c5-4fd2-a4aa-67e7ca2cbd47",
+              "name": "limit",
+              "value": 5,
+              "type": "number"
+            },
+            {
+              "id": "7d621ce1-9d25-40df-b952-9d0137bb2010",
+              "name": "query",
+              "value": "={{ $json.body.query || \"in:inbox\" }}",
+              "type": "string"
+            },
+            {
+              "id": "ae76b205-40d6-4443-8042-fa3f12b78ecf",
+              "name": "action",
+              "value": "={{ $json.body.action }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        896
+      ],
+      "id": "ea888ead-5e79-4f7f-a4c2-3a47a9d2b184",
+      "name": "Get Many Normalize"
+    },
+    {
+      "parameters": {
+        "jsCode": "const messages = $input.all().map(item => {\n  const j = item.json;\n\n  return {\n    id: j.id,\n    threadId: j.threadId,\n    subject: j.Subject || \"\",\n    from: j.From || \"\",\n    to: j.To || \"\",\n    snippet: j.snippet || \"\",\n    labels: (j.labels || []).map(label => label.name || label.id)\n  };\n});\n\nreturn [\n  {\n    json: {\n      success: true,\n      intent: \"email\",\n      action: \"get_many_messages\",\n      count: messages.length,\n      messages\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        816,
+        896
+      ],
+      "id": "e1d8361c-69ae-4c2e-8523-ec4a2ac328aa",
+      "name": "Format Messages"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "306b7296-1a32-4097-a9ad-ce61ca5effd8",
+              "name": "messageId",
+              "value": "={{ $json.body.messageId }}",
+              "type": "string"
+            },
+            {
+              "id": "c70d7815-6174-4ffd-90d8-c261d2dd31b1",
+              "name": "action",
+              "value": "={{ $json.body.action }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        1088
+      ],
+      "id": "c78396e0-c04a-4717-ac11-ee83687de570",
+      "name": "Get Message Normalize"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "limit": "={{ $json.limit }}",
+        "filters": {
+          "q": "={{ $json.query }}"
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        896
+      ],
+      "id": "a86cf8ec-a49b-4f86-8949-acefabafc080",
+      "name": "Gmail get many messages",
+      "webhookId": "c021cb68-2c98-4e1e-b3b8-c1429b9e53ec",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "voJyriJTbeFLSYty",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.to }}",
+        "subject": "={{ $json.subject }}",
+        "message": "={{ $json.message }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        704
+      ],
+      "id": "724d5f44-3469-45d3-867b-e6fa46e90806",
+      "name": "Gmail send",
+      "webhookId": "ae409bf2-d90c-49c3-8ca7-983b983d3141",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "voJyriJTbeFLSYty",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "messageId": "={{ $json.messageId }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        1088
+      ],
+      "id": "883712c7-6259-4ec0-9575-a2a251ea4d8d",
+      "name": "Get a message",
+      "webhookId": "ee93e003-0406-44fe-9700-54edbfa81a1c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "voJyriJTbeFLSYty",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const j = $input.first().json;\n\nreturn [\n  {\n    json: {\n      success: true,\n      intent: \"email\",\n      action: \"get_message\",\n      message: {\n        id: j.id,\n        threadId: j.threadId,\n        subject: j.Subject || \"\",\n        from: j.From || \"\",\n        to: j.To || \"\",\n        snippet: j.snippet || \"\",\n        labels: (j.labels || []).map(label => label.name || label.id)\n      }\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        816,
+        1088
+      ],
+      "id": "56e92362-6026-47a9-b21e-633f5b9bf708",
+      "name": "Format Message"
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "messageId": "={{ $json.messageId }}",
+        "message": "={{ $json.message }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        1280
+      ],
+      "id": "0abb5003-5d46-44b6-98ac-e54d7dab1b6d",
+      "name": "Gmail reply",
+      "webhookId": "05bad5d8-b5ad-49a3-b669-229981100812",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "voJyriJTbeFLSYty",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      success: true,\n      intent: \"email\",\n      action: \"reply\",\n      messageId: $('Reply Normalize').first().json.messageId,\n      message: \"Reply sent successfully\"\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        816,
+        1280
+      ],
+      "id": "0610d0bb-8ded-4e36-b19c-047b1b68d8ea",
+      "name": "Format reply"
+    },
+    {
+      "parameters": {
+        "operation": "markAsRead",
+        "messageId": "={{ $json.messageId }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        1472
+      ],
+      "id": "1b84e264-32c7-4f9f-94cf-950a251ed828",
+      "name": "Mark message as read",
+      "webhookId": "2ab6229f-9d88-47a8-981b-acdc73d3c7c5",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "voJyriJTbeFLSYty",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      success: true,\n      intent: \"email\",\n      action: \"mark_as_read\",\n      messageId: $('Mark Read Normalize').first().json.messageId,\n      message: \"Message marked as read\"\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        816,
+        1472
+      ],
+      "id": "f13f9b85-0b0f-4535-ade5-428a084af9ec",
+      "name": "Format message read"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1040,
+        1280
+      ],
+      "id": "e2dc819c-423e-458a-aeea-38ba4bd5545d",
+      "name": "Reply"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1040,
+        1472
+      ],
+      "id": "34f07eb3-c619-4361-96f8-ce5f174eb260",
+      "name": "Mark read"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1040,
+        1088
+      ],
+      "id": "c2d700d2-b7b1-411e-a66a-cb21948ec0e6",
+      "name": "Get message"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1040,
+        896
+      ],
+      "id": "eff924ea-ba12-49da-a888-85636d586b00",
+      "name": "Get many messages"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1040,
+        704
+      ],
+      "id": "1e276001-8756-4bf6-8b3c-c4bf0890c857",
+      "name": "Send"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c0ea0c51-724f-4cf1-9221-7baecf9ea0a3",
+              "name": "messageId",
+              "value": "={{ $json.body.messageId }}",
+              "type": "string"
+            },
+            {
+              "id": "66c9a214-e161-4e41-aaaa-4c7ccb0b964f",
+              "name": "action",
+              "value": "={{ $json.body.action }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        1472
+      ],
+      "id": "e3eccec1-7c40-4bf8-9891-17eeb3b4a77a",
+      "name": "Mark Read Normalize"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "57b18b45-6466-44cc-ac81-965507e44394",
+              "name": "messageId",
+              "value": "={{ $json.body.messageId }}",
+              "type": "string"
+            },
+            {
+              "id": "be0b42d4-5175-46d3-baf7-12e298d496d6",
+              "name": "message",
+              "value": "={{ $json.body.message }}",
+              "type": "string"
+            },
+            {
+              "id": "0ba745ca-d8a6-4410-a6da-67d0243b201b",
+              "name": "action",
+              "value": "={{ $json.body.action }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        1280
+      ],
+      "id": "ab80e030-1f53-418e-8ea5-65dc68496470",
+      "name": "Reply Normalize"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b469a5e0-28d4-4ac9-8a5e-c3680e2c49b4",
+              "name": "messageId",
+              "value": "={{ $json.body.messageId }}",
+              "type": "string"
+            },
+            {
+              "id": "0d572040-1e27-4c4a-8a9b-24b515d71ee5",
+              "name": "action",
+              "value": "={{ $json.body.action }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        1664
+      ],
+      "id": "30ac2004-4b09-413a-96fb-6a871e8439d3",
+      "name": "Mark Unread Normalize"
+    },
+    {
+      "parameters": {
+        "operation": "markAsUnread",
+        "messageId": "={{ $json.body.messageId }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        1664
+      ],
+      "id": "f54b5e7e-5c89-4c89-b5ba-975731c436cd",
+      "name": "Mark a message as unread",
+      "webhookId": "03623104-9f75-49a2-9e91-6241755377f6",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "voJyriJTbeFLSYty",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      success: true,\n      intent: \"email\",\n      action: \"mark_as_unread\",\n      messageId: $('Mark Unread Normalize').first().json.messageId,\n      message: \"Message marked as unread\"\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        816,
+        1664
+      ],
+      "id": "3d220f12-8f1f-4eb5-96eb-e071104ad96a",
+      "name": "Format unread"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1040,
+        1664
+      ],
+      "id": "90c56fd4-585d-4f10-ac86-d819c0586f17",
+      "name": "Mark unread"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d1646847-083c-422c-88f6-ea63cec48355",
+              "name": "eventId",
+              "value": "={{ $json.body.eventId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        -64
+      ],
+      "id": "1c61a86d-3403-43c5-b5cb-ee0fb16a02fd",
+      "name": "Delete Normalize (calendar)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "021dfa63-60d3-4dfb-9b4d-4c5f1056ba6d",
+              "name": "messageId",
+              "value": "={{ $json.body.messageId }}",
+              "type": "string"
+            },
+            {
+              "id": "649adec6-c668-444c-aaa4-35d220474c9e",
+              "name": "=action",
+              "value": "={{ $json.body.action }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        1856
+      ],
+      "id": "ea6c151d-15b8-4fab-9e22-adbb7fd09278",
+      "name": "Delete Normalize (gmail)"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "messageId": "={{ $json.body.messageId }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        1856
+      ],
+      "id": "86ac6dde-9ce0-478e-b9fe-80918cb9ae7f",
+      "name": "Delete a message",
+      "webhookId": "2694f7c1-1210-4b64-8313-31bdf5aa5247",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "voJyriJTbeFLSYty",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      success: true,\n      intent: \"email\",\n      action: \"delete_message\",\n      messageId: $('Delete Normalize (gmail)').first().json.messageId,\n      message: \"Message deleted successfully\"\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        816,
+        1856
+      ],
+      "id": "1263b9a6-6b3c-4548-83a9-561bbda30646",
+      "name": "Format Delete"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1040,
+        1856
+      ],
+      "id": "db89ab61-72e3-4cf4-ace6-c7d5d96dc072",
+      "name": "Delete message"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f8116102-691e-4159-abd5-46a4ceeebc02",
+              "name": "messageId",
+              "value": "={{ $json.body.messageId }}",
+              "type": "string"
+            },
+            {
+              "id": "a2b45b87-6363-4b60-a102-0ad46b7d5185",
+              "name": "labelId",
+              "value": "={{ $json.body.labelId }}",
+              "type": "string"
+            },
+            {
+              "id": "8bd0509a-f9ba-4ec7-88c9-3e988856b40e",
+              "name": "action",
+              "value": "={{ $json.body.action }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        2016
+      ],
+      "id": "11b661c9-6085-45cb-9de1-967f0c7e6d75",
+      "name": "Add Label Normalize"
+    },
+    {
+      "parameters": {
+        "operation": "addLabels",
+        "messageId": "={{ $json.body.messageId }}",
+        "labelIds": "={{ $json.labelId }}"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        576,
+        2016
+      ],
+      "id": "47b065eb-363d-4107-80a5-79a49bc4e478",
+      "name": "Add label to message",
+      "webhookId": "3c602c5f-69f4-4027-a509-63070c268d4e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "voJyriJTbeFLSYty",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      success: true,\n      intent: \"email\",\n      action: \"add_label\",\n      messageId: $('Add Label Normalize').first().json.messageId,\n      labelId: $('Add Label Normalize').first().json.labelId,\n      message: \"Label added successfully\"\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        752,
+        2016
+      ],
+      "id": "ec901c51-47b8-48fa-9da1-cdab6e2832d9",
+      "name": "Format Add Label"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        960,
+        2016
+      ],
+      "id": "96b0d880-471f-4e99-8051-72eb8622ad4d",
+      "name": "Add label"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2e099848-037f-47b1-8cf8-50723959fe66",
+              "name": "action",
+              "value": "={{ $json.body.action }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        2176
+      ],
+      "id": "3b57efd5-552f-4537-9cc9-c17aa247f261",
+      "name": "Get many Labels Normalize"
+    },
+    {
+      "parameters": {
+        "resource": "label"
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        576,
+        2176
+      ],
+      "id": "c9674288-7d3c-4efe-b7ec-eecc63ce8aaa",
+      "name": "Get many labels",
+      "webhookId": "2e218dc4-0202-42ee-8b9c-74160b9576cb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "voJyriJTbeFLSYty",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const labels = $input.all().map(item => {\n  const j = item.json;\n  return {\n    id: j.id,\n    name: j.name || \"\"\n  };\n});\n\nreturn [\n  {\n    json: {\n      success: true,\n      intent: \"email\",\n      action: \"get_many_labels\",\n      count: labels.length,\n      labels\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        784,
+        2176
+      ],
+      "id": "347144ef-e92e-49b9-a808-9713d26c78ca",
+      "name": "Format Labels"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        992,
+        2176
+      ],
+      "id": "365b95e0-733a-4fc9-8a5d-10c30ae169ff",
+      "name": "Format labels"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Calendar Action Switch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Email Action Switch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Create an event": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (Create)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calendar Action Switch": {
+      "main": [
+        [
+          {
+            "node": "Create Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Delete Normalize (calendar)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Events Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete an event": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (Delete)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields (Create)": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook (Calendar Create)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields (Delete)": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook (Calendar Delete)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Normalize": {
+      "main": [
+        [
+          {
+            "node": "Create an event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Events Normalize": {
+      "main": [
+        [
+          {
+            "node": "Get many events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many events": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Normalize": {
+      "main": [
+        [
+          {
+            "node": "Get an event (Update Base)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update an event": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (Update)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields (Update)": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook (Calendar Update)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook (Calendar Create)": {
+      "main": [
+        []
+      ]
+    },
+    "Get an event (Update Base)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (Update Merge)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields (Update Merge)": {
+      "main": [
+        [
+          {
+            "node": "Update an event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields (No Events Found)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields (No Events Found)": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook (No Calendar Events Found)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook (Calendar Get)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields (Email)": {
+      "main": [
+        [
+          {
+            "node": "Send",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Action Switch": {
+      "main": [
+        [
+          {
+            "node": "Send Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Many Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Message Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Reply Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mark Read Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mark Unread Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Delete Normalize (gmail)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Add Label Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many Labels Normalize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Normalize": {
+      "main": [
+        [
+          {
+            "node": "Gmail send",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Many Normalize": {
+      "main": [
+        [
+          {
+            "node": "Gmail get many messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Messages": {
+      "main": [
+        [
+          {
+            "node": "Get many messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail get many messages": {
+      "main": [
+        [
+          {
+            "node": "Format Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail send": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields (Email)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Message Normalize": {
+      "main": [
+        [
+          {
+            "node": "Get a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a message": {
+      "main": [
+        [
+          {
+            "node": "Format Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Message": {
+      "main": [
+        [
+          {
+            "node": "Get message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail reply": {
+      "main": [
+        [
+          {
+            "node": "Format reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format reply": {
+      "main": [
+        [
+          {
+            "node": "Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark message as read": {
+      "main": [
+        [
+          {
+            "node": "Format message read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format message read": {
+      "main": [
+        [
+          {
+            "node": "Mark read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Read Normalize": {
+      "main": [
+        [
+          {
+            "node": "Mark message as read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reply Normalize": {
+      "main": [
+        [
+          {
+            "node": "Gmail reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark Unread Normalize": {
+      "main": [
+        [
+          {
+            "node": "Mark a message as unread",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mark a message as unread": {
+      "main": [
+        [
+          {
+            "node": "Format unread",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format unread": {
+      "main": [
+        [
+          {
+            "node": "Mark unread",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Normalize (calendar)": {
+      "main": [
+        [
+          {
+            "node": "Delete an event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Normalize (gmail)": {
+      "main": [
+        [
+          {
+            "node": "Delete a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete a message": {
+      "main": [
+        [
+          {
+            "node": "Format Delete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Delete": {
+      "main": [
+        [
+          {
+            "node": "Delete message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Label Normalize": {
+      "main": [
+        [
+          {
+            "node": "Add label to message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add label to message": {
+      "main": [
+        [
+          {
+            "node": "Format Add Label",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Add Label": {
+      "main": [
+        [
+          {
+            "node": "Add label",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many Labels Normalize": {
+      "main": [
+        [
+          {
+            "node": "Get many labels",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many labels": {
+      "main": [
+        [
+          {
+            "node": "Format Labels",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Labels": {
+      "main": [
+        [
+          {
+            "node": "Format labels",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "America/Chicago",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "c4b01506-37cd-4c83-8359-ec7eb7fab68b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f7a64cdb68ec287539fda4d9b263149bc12964e085df373d20778576b6d2903a"
+  },
+  "id": "5ZSSIwNQ9QMCZl6L",
+  "tags": []
+}
