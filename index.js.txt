@@ -21,7 +21,7 @@ SillyTavern.getContext().eventSource.on("message", async (event) => {
 
     console.log("Sending to n8n:", data);
 
-    const res = await fetch("http://localhost:5678/webhook/assistant-task", {
+    const res = await fetch("http://localhost:5678/webhook-test/assistant-router/chat/completions", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
