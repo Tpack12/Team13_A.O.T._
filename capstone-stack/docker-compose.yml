@@ -1,0 +1,47 @@
+services:
+  sillytavern:
+    image: ghcr.io/sillytavern/sillytavern:latest
+    container_name: sillytavern
+    hostname: sillytavern
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=production
+      - FORCE_COLOR=1
+      - SILLYTAVERN_HEARTBEATINTERVAL=30
+    volumes:
+      - ./sillytavern/config:/home/node/app/config
+      - ./sillytavern/data:/home/node/app/data
+      - ./sillytavern/plugins:/home/node/app/plugins
+      - ./sillytavern/extensions:/home/node/app/public/scripts/extensions/third>
+    restart: unless-stopped
+
+    networks:
+      - capstone-net
+
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:stable
+    container_name: n8n
+    hostname: n8n
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=${N8N_HOST}
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=${WEBHOOK_URL}
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
+      - TZ=${TZ}
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./n8n/local-files:/files
+    restart: unless-stopped
+    networks:
+      - capstone-net
+
+networks:
+  capstone-net:
+    driver: bridge
+
+volumes:
+  n8n_data:

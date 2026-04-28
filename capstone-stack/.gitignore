@@ -1,0 +1,13 @@
+.env
+
+# SillyTavern runtime data (DO NOT PUSH)
+sillytavern/data/
+sillytavern/config/
+sillytavern/plugins/
+sillytavern/extensions/
+
+# n8n runtime data
+n8n/local-files/
+
+# Optional (safe)
+node_modules/
